@@ -8,7 +8,7 @@ class UserRepository {
     return users;
   }
 
-  async findById(id: number): Promise<User | null> {
+  async findById(id: string): Promise<User | null> {
     const user = await User.findByPk(id);
 
     return user;
