@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql
+    env_file:
+      - './envs/mysql.env'
+    volumes:
+      - sqldb:/app/db
+    ports:
+      - 3306:3306
+  server:
+    build:
+      context: './server'
+      dockerfile: Dockerfile
+    ports:
+      - 4000:4000
+    env_file:
+      - ./envs/server.env
+    volumes:
+      - ./server:/app
+    depends_on:
+      - mysql
+volumes:
+  sqldb:
