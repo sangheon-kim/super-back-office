@@ -1,17 +1,11 @@
-import {
-  Model,
-  DataTypes,
-  ForeignKey,
-  InferAttributes,
-  InferCreationAttributes,
-} from 'sequelize'
-import sequelize from 'src/utils/ORM'
-import Project from 'src/models/Project'
+import { Model, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes } from 'sequelize';
+import sequelize from 'src/utils/ORM';
+import Project from 'src/models/Project/Project.model';
 
 class Item extends Model<InferAttributes<Item>, InferCreationAttributes<Item>> {
-  declare key: string
-  declare value: string
-  declare projectId: ForeignKey<Project['projectId']>
+  declare key: string;
+  declare value: string;
+  declare projectId: ForeignKey<Project['projectId']>;
 }
 
 Item.init(
@@ -38,6 +32,6 @@ Item.init(
     collate: 'utf8_general_ci',
     timestamps: false,
   }
-)
+);
 
-export default Item
+export default Item;

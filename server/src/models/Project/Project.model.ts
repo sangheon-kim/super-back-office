@@ -5,21 +5,18 @@ import {
   InferAttributes,
   InferCreationAttributes,
   HasManyCreateAssociationMixin,
-} from 'sequelize'
-import sequelize from 'src/utils/ORM'
-import Item from './Item'
+} from 'sequelize';
+import sequelize from 'src/utils/ORM';
+import Item from 'src/models/Item/Item.model';
 
-class Project extends Model<
-  InferAttributes<Project>,
-  InferCreationAttributes<Project>
-> {
-  declare projectId: string
-  declare description: string
-  declare createItem: HasManyCreateAssociationMixin<Item>
+class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
+  declare projectId: string;
+  declare description: string;
+  declare createItem: HasManyCreateAssociationMixin<Item>;
 
   declare static associations: {
-    items: Association<Project, Item>
-  }
+    items: Association<Project, Item>;
+  };
 }
 
 Project.init(
@@ -42,6 +39,6 @@ Project.init(
     charset: 'utf8',
     collate: 'utf8_general_ci',
   }
-)
+);
 
-export default Project
+export default Project;
