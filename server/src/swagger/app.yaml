@@ -1,0 +1,14 @@
+components:
+  schemas:
+    StringValue:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        status:
+          type: number
+          example: 200
+        _data:
+          type: string
+          example: 'Hello 상헌'

@@ -1,5 +1,5 @@
 import express from 'express';
-import path from 'path';
+import path, { parse } from 'path';
 import sequelize from 'src/utils/ORM';
 import Item from 'src/models/Item/Item.model';
 import Project from 'src/models/Project/Project.model';
@@ -47,8 +47,10 @@ app.use('*', (req, res: express.Response, next) => {
     } finally {
       const isSuccess = /^2/.test(res.statusCode.toString()) && !data.error;
 
-      if (!isSuccess) return res.send(parseData);
-      return res.send({
+      if (!isSuccess) {
+        return res.status(parseData.status).send(parseData);
+      }
+      return res.status(res.statusCode).send({
         success: isSuccess,
         status: res.statusCode,
         _data: parseData,

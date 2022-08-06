@@ -4,6 +4,7 @@ import AppController from '../controllers/App.controller';
 class AppRouter {
   router: express.Router;
   controller: typeof AppController;
+
   constructor(controller: typeof AppController) {
     this.router = express.Router();
     this.controller = controller;
@@ -11,18 +12,8 @@ class AppRouter {
   }
 
   private init() {
-    /**
-     * @swagger
-     * paths:
-     *  /:
-     *    get:
-     *      summary: "Hello World!",
-     *      description: "초기 페이지"
-     * tags:
-     *  name: App
-     *  description: Index
-     */
     this.router.get('/', this.controller.getApp);
+    this.router.get('/:appId', this.controller.getOneTest);
   }
 }
 

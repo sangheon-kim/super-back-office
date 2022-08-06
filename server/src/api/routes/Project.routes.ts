@@ -10,10 +10,10 @@ class ProjectRouter {
 
   private init() {
     this.router.get('/', this.controller.getProjects);
-    this.router.get('/:id', this.controller.getProject);
+    this.router.get('/:projectId', this.controller.getProject);
     this.router.post('/', this.controller.createProject);
-    this.router.put('/:id', this.controller.updateProject);
-    this.router.delete('/:id', this.controller.deleteProject);
+    this.router.put('/:projectId', this.controller.updateProject);
+    this.router.delete('/:projectId', this.controller.deleteProject);
   }
 }
 

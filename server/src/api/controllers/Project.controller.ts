@@ -15,8 +15,8 @@ class ProjectController {
 
   async getProject(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const project = await this.projectRepository.findById(id);
+      const { projectId } = req.params;
+      const project = await this.projectRepository.findById(projectId);
       res.send(project);
     } catch (err) {
       next(err);
@@ -34,8 +34,8 @@ class ProjectController {
 
   async updateProject(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const result = await this.projectRepository.update(id, req.body as Project);
+      const { projectId } = req.params;
+      const result = await this.projectRepository.update(projectId, req.body as Project);
       if (!result) throw new Error('No Project');
       res.send(true);
     } catch (err) {
@@ -45,8 +45,8 @@ class ProjectController {
 
   async deleteProject(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const result = await this.projectRepository.delete(id);
+      const { projectId } = req.params;
+      const result = await this.projectRepository.delete(projectId);
       if (!result) throw new Error('No Project');
       res.send(true);
     } catch (err) {
