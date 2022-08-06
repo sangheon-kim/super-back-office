@@ -13,7 +13,6 @@ info:
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
   # Added by API Auto Mocking Plugin
-  # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/sangheon-kim/API_Warehouse/1.0.0
   - description: LocalHost
@@ -124,6 +123,19 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/SuccessObject'
+                properties:
+                  _data:
+                    type: object
+                    properties:
+                      projects:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Project'
     post:
       tags:
         - RemoteConfiguration
@@ -134,10 +146,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ''
+              $ref: '#/components/schemas/Project'
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/SuccessObject'
+                properties:
+                  _data:
+                    type: object
+                    properties:
+                      projects:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Project'
   '/projects/{projectId}':
     get:
       tags:
@@ -155,6 +180,34 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/SuccessObject'
+                properties:
+                  _data:
+                    type: object
+                    properties:
+                      project:
+                        $ref: '#/components/schemas/Project'
+        '404':
+          description: Error
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ErrorObject'
+                properties:
+                  status:
+                    type: number
+                    example: 404
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: 'Project is not exist'
     put:
       tags:
         - RemoteConfiguration
@@ -172,10 +225,38 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ''
+              $ref: '#/components/schemas/Project'
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/SuccessObject'
+                properties:
+                  _data:
+                    type: object
+                    properties:
+                      project:
+                        $ref: '#/components/schemas/Project'
+        '404':
+          description: No Exist
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ErrorObject'
+                properties:
+                  status:
+                    type: number
+                    example: 404
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: 'Project is not exist'
     delete:
       tags:
         - RemoteConfiguration
@@ -192,6 +273,33 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/SuccessObject'
+                properties:
+                  _data:
+                    type: string
+                    example: 'OK'
+
+        '404':
+          description: No Exist
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ErrorObject'
+                properties:
+                  status:
+                    type: number
+                    example: 404
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: 'Project is not exist'
   '/projects/{projectId}/items':
     get:
       tags:
@@ -209,6 +317,38 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/SuccessObject'
+                properties:
+                  _data:
+                    type: object
+                    properties:
+                      project:
+                        $ref: '#/components/schemas/Project'
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Item'
+        '404':
+          description: Error
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ErrorObject'
+                properties:
+                  status:
+                    type: number
+                    example: 404
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: 'Project is not exist'
     post:
       tags:
         - RemoteConfiguration
@@ -226,10 +366,42 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ''
+              $ref: '#/components/schemas/Item'
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/SuccessObject'
+                properties:
+                  _data:
+                    type: object
+                    properties:
+                      project:
+                        $ref: '#/components/schemas/Project'
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Item'
+        '404':
+          description: Error
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ErrorObject'
+                properties:
+                  status:
+                    type: number
+                    example: 404
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: 'Project is not exist'
   '/projects/{projectId}/items/{itemId}':
     get:
       tags:
@@ -252,6 +424,37 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/SuccessObject'
+                properties:
+                  _data:
+                    type: object
+                    properties:
+                      project:
+                        $ref: '#/components/schemas/Project'
+                      item:
+                        $ref: '#/components/schemas/Item'
+
+        '404':
+          description: Error
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ErrorObject'
+                properties:
+                  status:
+                    type: number
+                    example: 404
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: 'Project or Item is not exist'
     put:
       tags:
         - RemoteConfiguration
@@ -261,7 +464,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ''
+              $ref: '#/components/schemas/Item'
       parameters:
         - name: projectId
           in: path
@@ -278,6 +481,36 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/SuccessObject'
+                properties:
+                  _data:
+                    type: object
+                    properties:
+                      project:
+                        $ref: '#/components/schemas/Project'
+                      item:
+                        $ref: '#/components/schemas/Item'
+        '404':
+          description: Error
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ErrorObject'
+                properties:
+                  status:
+                    type: number
+                    example: 404
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: 'Project or Item is not exist'
     delete:
       tags:
         - RemoteConfiguration
@@ -299,6 +532,33 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/SuccessObject'
+                properties:
+                  _data:
+                    type: string
+                    example: 'OK'
+
+        '404':
+          description: No Exist
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ErrorObject'
+                properties:
+                  status:
+                    type: number
+                    example: 404
+                  error:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: 'Project or Item is not exist'
 
   /pet/findByStatus:
     get:
@@ -811,6 +1071,29 @@ components:
         age:
           type: number
           example: 28
+    Project:
+      description: Remote Configuration Project Name
+      type: object
+      properties:
+        projectId:
+          type: string
+          description: 프로젝트 ID
+          example: '[프로젝트 ID]'
+        description:
+          type: string
+          description: 해당 프로젝트 설명
+          example: '[프로젝트 설명]'
+    Item:
+      description: Remote Configuration Item Name
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+          example: ''
+        projectId:
+          type: string
     Order:
       type: object
       properties:

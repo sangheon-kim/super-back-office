@@ -69,6 +69,12 @@ app.use(ErrorController.getError);
   try {
     await sequelize.sync({ force: false });
 
+    const project = await Project.findByPk('test');
+
+    const items = (await project?.getItems()) || [];
+
+    const arr = items.map((item: any) => item.dataValues);
+
     // await Project.create({
     //   projectId: 'test',
     //   description: '테스트입니다.',
