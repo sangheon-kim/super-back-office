@@ -6,7 +6,7 @@ import Project from 'src/models/Project/Project.model';
 // Routes
 import AppRouter from 'src/api/routes/App.routes';
 import ErrorController from './api/controllers/Error.Controller';
-import HttpException from './api/common/exceptions/http.exception';
+import { specs, SwaggerUi } from 'src/utils/Swagger';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -30,6 +30,8 @@ Project.hasMany(Item, {
   onUpdate: 'CASCADE',
   as: 'items',
 });
+
+app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs));
 
 // Response Interceptor
 app.use('*', (req, res: express.Response, next) => {

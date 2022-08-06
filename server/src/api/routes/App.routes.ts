@@ -11,6 +11,17 @@ class AppRouter {
   }
 
   private init() {
+    /**
+     * @swagger
+     * paths:
+     *  /:
+     *    get:
+     *      summary: "Hello World!",
+     *      description: "초기 페이지"
+     * tags:
+     *  name: App
+     *  description: Index
+     */
     this.router.get('/', this.controller.getApp);
   }
 }
