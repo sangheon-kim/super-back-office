@@ -7,7 +7,7 @@ class ItemController {
   async getItems(_: Request, res: Response, next: NextFunction) {
     try {
       const items = await this.itemRepository.findAll();
-      res.json(items);
+      res.send(items);
     } catch (err) {
       next(err);
     }
@@ -16,7 +16,7 @@ class ItemController {
     try {
       const { id } = req.params;
       const item = await this.itemRepository.findById(id);
-      res.json(item);
+      res.send(item);
     } catch (err) {
       next(err);
     }
@@ -26,7 +26,7 @@ class ItemController {
     try {
       const item = await this.itemRepository.create({ key, value, projectId } as Item);
 
-      res.json(item);
+      res.send(item);
     } catch (err) {
       next(err);
     }
@@ -37,7 +37,7 @@ class ItemController {
     try {
       const result = await this.itemRepository.update(id, req.body as Item);
       if (!result) throw new Error('No Item');
-      res.json(true);
+      res.send(true);
     } catch (err) {
       next(err);
     }
@@ -47,7 +47,7 @@ class ItemController {
       const { id } = req.params;
       const result = await this.itemRepository.delete(id);
       if (!result) throw new Error('No Item');
-      res.json(true);
+      res.send(true);
     } catch (err) {
       next(err);
     }

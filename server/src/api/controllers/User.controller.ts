@@ -8,7 +8,7 @@ class UserController {
   async getUsers(_: Request, res: Response, next: NextFunction) {
     try {
       const users = await this.userRepository.findAll();
-      res.json(users);
+      res.send(users);
     } catch (err) {
       next(err);
     }
@@ -18,7 +18,7 @@ class UserController {
     try {
       const { id } = req.params;
       const user = await this.userRepository.findById(id);
-      res.json(user);
+      res.send(user);
     } catch (err) {
       next(err);
     }
@@ -28,7 +28,7 @@ class UserController {
     try {
       const user = await this.userRepository.create(req.body as User);
 
-      res.json(user);
+      res.send(user);
     } catch (err) {
       next(err);
     }
@@ -40,7 +40,7 @@ class UserController {
     try {
       const result = await this.userRepository.update(id, req.body as User);
       if (!result) throw new Error('No User');
-      res.json(true);
+      res.send(true);
     } catch (err) {
       next(err);
     }
@@ -51,7 +51,7 @@ class UserController {
       const { id } = req.params;
       const result = await this.userRepository.delete(id);
       if (!result) throw new Error('No User');
-      res.json(true);
+      res.send(true);
     } catch (err) {
       next(err);
     }
