@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import Project from 'src/models/Project/Project.model';
 import ProjectRepository from 'src/models/Project/Project.repository';
-import { CreateProjectDto, ProjectReponseDto, UpdateProjectDto } from '../dto/Project.dto';
+import HttpException from '../common/exceptions/http.exception';
+import { CreateProjectDto, UpdateProjectDto } from 'src/api/dto/Project.dto';
 
 class ProjectController {
   constructor(private projectRepository: ProjectRepository) {
@@ -46,13 +46,10 @@ class ProjectController {
       const { projectId } = req.params;
       const updateProjectDto: UpdateProjectDto = req.body;
       const result = await this.projectRepository.update(projectId, updateProjectDto);
-      if (!result) throw new Error('No Project');
+      if (!result) throw new HttpException(404, 'No Project');
 
       res.send('OK');
     } catch (err) {
-      console.log('updateProject Error', {
-        err,
-      });
       next(err);
     }
   }
@@ -61,7 +58,7 @@ class ProjectController {
     try {
       const { projectId } = req.params;
       const result = await this.projectRepository.delete(projectId);
-      if (!result) throw new Error('No Project');
+      if (!result) throw new HttpException(404, 'No Project');
 
       res.send('OK');
     } catch (err) {

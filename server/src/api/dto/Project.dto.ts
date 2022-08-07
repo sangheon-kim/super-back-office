@@ -1,7 +1,8 @@
-import { IsString, IsOptional, IsAscii } from 'class-validator';
+import { IsString, IsOptional, IsAscii, Length } from 'class-validator';
 
 export class RequestProjectDto {
   @IsString()
+  @Length(1, 50)
   @IsAscii()
   public projectId!: string;
 
@@ -21,6 +22,8 @@ export class CreateProjectDto extends RequestProjectDto {}
 
 export class UpdateProjectDto extends RequestProjectDto {
   @IsString()
+  @Length(1, 50)
   @IsOptional()
+  @IsAscii()
   public projectId!: string;
 }

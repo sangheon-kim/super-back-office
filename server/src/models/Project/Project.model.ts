@@ -6,6 +6,7 @@ import {
   InferCreationAttributes,
   HasManyCreateAssociationMixin,
   HasManyGetAssociationsMixin,
+  HasManyRemoveAssociationMixin,
 } from 'sequelize';
 import sequelize from 'src/utils/ORM';
 import Item from 'src/models/Item/Item.model';
@@ -15,6 +16,7 @@ class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Pr
   declare description: string;
   declare createItem: HasManyCreateAssociationMixin<Item>;
   declare getItems: HasManyGetAssociationsMixin<Item>;
+  declare deleteItem: HasManyRemoveAssociationMixin<Item, 'key'>;
 
   declare static associations: {
     items: Association<Project, Item>;

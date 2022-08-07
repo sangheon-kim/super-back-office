@@ -11,7 +11,7 @@ class Item extends Model<InferAttributes<Item>, InferCreationAttributes<Item>> {
 Item.init(
   {
     key: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(30),
       primaryKey: true,
     },
     value: {
