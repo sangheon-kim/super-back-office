@@ -236,10 +236,8 @@ paths:
                   - $ref: '#/components/schemas/SuccessObject'
                 properties:
                   _data:
-                    type: object
-                    properties:
-                      project:
-                        $ref: '#/components/schemas/Project'
+                    type: string
+                    example: 'OK'
         '404':
           description: No Exist
           content:
@@ -363,10 +361,7 @@ paths:
           schema:
             type: string
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Item'
+        $ref: '#/components/requestBodies/Item'
       responses:
         '200':
           description: OK
@@ -381,10 +376,8 @@ paths:
                     properties:
                       project:
                         $ref: '#/components/schemas/Project'
-                      items:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Item'
+                      item:
+                        $ref: '#/components/schemas/Item'
         '404':
           description: Error
           content:
@@ -461,10 +454,7 @@ paths:
       summary: (Item) Update One Item
       description: Update the Item with the ItemId
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Item'
+        $ref: '#/components/requestBodies/Item'
       parameters:
         - name: projectId
           in: path
@@ -488,12 +478,8 @@ paths:
                   - $ref: '#/components/schemas/SuccessObject'
                 properties:
                   _data:
-                    type: object
-                    properties:
-                      project:
-                        $ref: '#/components/schemas/Project'
-                      item:
-                        $ref: '#/components/schemas/Item'
+                    type: string
+                    example: 'OK'
         '404':
           description: Error
           content:
@@ -1213,6 +1199,17 @@ components:
         message:
           type: string
   requestBodies:
+    Item:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+                example: ''
     Pet:
       content:
         application/json:

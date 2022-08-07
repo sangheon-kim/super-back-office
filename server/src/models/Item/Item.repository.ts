@@ -1,20 +1,43 @@
+import HttpException from 'src/api/common/exceptions/http.exception';
+import ProjectRepository from '../Project/Project.repository';
 import Item from './Item.model';
 
 class ItemRepository {
-  constructor() {}
-
-  async findAll(): Promise<Item[]> {
-    const items = await Item.findAll();
-    return items;
+  private projectRepository: ProjectRepository = new ProjectRepository();
+  constructor() {
+    this.findAll = this.findAll.bind(this);
+    this.findById = this.findById.bind(this);
+    this.create = this.create.bind(this);
+    this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
-  async findById(id: string): Promise<Item | null> {
-    const item = await Item.findByPk(id);
+  async findAll(projectId: string): Promise<Item[]> {
+    try {
+      const project = await this.projectRepository.findById(projectId);
 
-    return item;
+      const items = await project?.getItems();
+
+      return items || [];
+    } catch (err) {
+      throw new HttpException(500, JSON.stringify(err));
+    }
   }
 
-  async create(item: Item): Promise<Item> {
+  async findById(projectId: string, itemId: string): Promise<Item | null> {
+    try {
+      const items = await this.findAll(projectId);
+      const item = items.filter((item) => item.key === itemId)[0] || {};
+
+      return item;
+    } catch (err) {
+      throw new HttpException(500, JSON.stringify(err));
+    }
+  }
+
+  async create(projectId: string, itemId: string, item: Item): Promise<Item> {
+    const project = await this.projectRepository.findById(projectId);
+    // await
     const newItem = await Item.create(item);
 
     return newItem;

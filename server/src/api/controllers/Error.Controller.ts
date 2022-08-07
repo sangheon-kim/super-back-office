@@ -5,9 +5,9 @@ class ErrorController {
   constructor() {}
 
   getError(error: HttpException, __: Request, res: Response, next: NextFunction) {
-    res.send({
+    res.status(error.statusCode || 500).send({
       success: false,
-      status: error.statusCode,
+      status: error.statusCode || 500,
       error: {
         message: error.message,
       },

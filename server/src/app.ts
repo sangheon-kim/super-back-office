@@ -4,9 +4,12 @@ import sequelize from 'src/utils/ORM';
 import Item from 'src/models/Item/Item.model';
 import Project from 'src/models/Project/Project.model';
 // Routes
-import AppRouter from 'src/api/routes/App.routes';
 import ErrorController from './api/controllers/Error.Controller';
 import { specs, SwaggerUi } from 'src/utils/Swagger';
+
+import AppRouter from 'src/api/routes/App.routes';
+import ProjectRouter from './api/routes/Project.routes';
+import ItemRouter from './api/routes/Item.routes';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -14,6 +17,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 Item.belongsTo(Project, {
@@ -48,7 +52,7 @@ app.use('*', (req, res: express.Response, next) => {
       const isSuccess = /^2/.test(res.statusCode.toString()) && !data.error;
 
       if (!isSuccess) {
-        return res.status(parseData.status).send(parseData);
+        return res.status(res.statusCode).send(parseData);
       }
       return res.status(res.statusCode).send({
         success: isSuccess,
@@ -60,7 +64,10 @@ app.use('*', (req, res: express.Response, next) => {
   next();
 });
 
-app.use('/', AppRouter);
+app.use(ItemRouter);
+app.use(ProjectRouter);
+app.use(AppRouter);
+
 // Error Handling
 app.use(ErrorController.get404);
 app.use(ErrorController.getError);
