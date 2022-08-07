@@ -60,7 +60,6 @@ const LogoutBtn = styled.button`
   align-items: center;
   border: none;
   color: ${({ theme }) => theme.color.gray700};
-  /* margin: 16px 0; */
   margin-top: 24px;
   background-color: ${({ theme }) => theme.color.gray300};
   padding: 8px 8px;
@@ -93,45 +92,6 @@ const Layout: React.FC<Props> = () => {
               <Tabs.Tab label="a">Tab A</Tabs.Tab>
               <Tabs.Tab label="b">Tab B</Tabs.Tab>
               <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
-              <Tabs.Tab label="a">Tab A</Tabs.Tab>
-              <Tabs.Tab label="b">Tab B</Tabs.Tab>
-              <Tabs.Tab label="c">Tab C</Tabs.Tab>
             </Tabs>
           </LNB>
         </SearchProvider>
@@ -144,9 +104,7 @@ const Layout: React.FC<Props> = () => {
           Log out
         </LogoutBtn>
       </GNB>
-      <Content>
-        <Outlet />
-      </Content>
+      <Outlet />
     </LayoutWrapper>
   );
 };

@@ -7,6 +7,7 @@ specifiers:
   '@vitejs/plugin-react': ^2.0.0
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-icons: ^4.4.0
   react-is: ^18.2.0
   react-router-dom: ^6.3.0
   styled-components: ^5.3.5
@@ -16,6 +17,7 @@ specifiers:
 dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-icons: 4.4.0_react@18.2.0
   react-is: 18.2.0
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
   styled-components: 5.3.5_7i5myeigehqah43i5u7wbekgba
@@ -879,6 +881,14 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-icons/4.4.0_react@18.2.0:
+    resolution: {integrity: sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-is/16.13.1:

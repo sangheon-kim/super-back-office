@@ -32,7 +32,7 @@ function App() {
   }, [location]);
 
   return (
-    <ThemeProvider theme={Theme(appTheme)}>
+    <ThemeProvider theme={Theme(appTheme || 'dark')}>
       <GlobalStyle />
       {element}
     </ThemeProvider>

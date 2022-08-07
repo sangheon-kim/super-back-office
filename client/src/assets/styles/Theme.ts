@@ -135,9 +135,11 @@ const Color = {
   light,
 };
 
-const Theme = (theme: 'dark' | 'light') => ({
-  color: Color[theme],
-  typography,
-});
+const Theme = (theme: 'dark' | 'light') => {
+  return {
+    color: Color[theme],
+    typography,
+  };
+};
 
 export default Theme;

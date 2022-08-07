@@ -10,6 +10,7 @@ import FindIdContainer from 'src/containers/auth/FindIdContainer';
 import FindPasswordContainer from 'src/containers/auth/FindPasswordContainer';
 import ChangePasswordContainer from 'src/containers/auth/ChangePasswordContainer';
 import ServiceContainer from 'src/containers/ServiceContainer';
+import ConfigContainer from 'src/containers/ConfigContainer';
 
 const routes: RouteObject[] = [
   {
@@ -17,6 +18,7 @@ const routes: RouteObject[] = [
     element: <Layout />,
     children: [
       { index: true, element: <MainContainer /> },
+      { path: '/config', element: <ConfigContainer /> },
       { path: '/:id', element: <ServiceContainer /> },
     ],
   },
