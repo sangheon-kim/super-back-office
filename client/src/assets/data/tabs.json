@@ -1,0 +1,26 @@
+[
+  {
+    "name": "홈",
+    "key": "home"
+  },
+  {
+    "name": "Plawe",
+    "key": "Plawe",
+    "children": [
+      {
+        "name": "장소 설정",
+        "key": "location"
+      }
+    ]
+  },
+  {
+    "name": "Config 설정",
+    "key": "config",
+    "children": []
+  },
+  {
+    "name": "메뉴 설정",
+    "key": "menu_setting",
+    "children": []
+  }
+]
