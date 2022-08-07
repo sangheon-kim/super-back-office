@@ -23,12 +23,12 @@ class ItemRepository {
     }
   }
 
-  async findById(project: Project, itemId: string): Promise<Item | null> {
+  async findById(project: Project, key: string): Promise<Item | null> {
     try {
       const items =
         (await project.getItems({
           where: {
-            itemId,
+            key,
           },
         })) || [];
 
@@ -54,7 +54,7 @@ class ItemRepository {
       const items =
         (await project.getItems({
           where: {
-            itemId: key,
+            key,
           },
         })) || [];
 

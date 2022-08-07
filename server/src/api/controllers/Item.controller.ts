@@ -23,7 +23,7 @@ class ItemController {
       if (!project) throw new HttpException(404, 'No Project');
 
       const items = await this.itemRepository.findAll(project);
-      res.send({ items });
+      res.send({ project, items });
     } catch (err) {
       next(err);
     }
@@ -37,7 +37,7 @@ class ItemController {
       if (!project) throw new HttpException(404, 'No Project');
 
       const item = await this.itemRepository.findById(project, itemId);
-      res.send({ item });
+      res.send({ project, item });
     } catch (err) {
       next(err);
     }
@@ -52,7 +52,7 @@ class ItemController {
       if (!project) throw new HttpException(404, 'No Project');
       const item = await this.itemRepository.create(project, body);
 
-      res.send({ item });
+      res.send({ project, item });
     } catch (err) {
       next(err);
     }
