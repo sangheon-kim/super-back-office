@@ -17,8 +17,8 @@ services:
     env_file:
       - ./envs/server.env
     volumes:
-      - ./server:/app
-      - /app/node_modules
+      - ./server:/app/server
+      - /app/server/node_modules
     depends_on:
       - mysql
   client:
@@ -28,7 +28,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./client/src:/app/src
+      - ./client/src:/app/client/src
+      - /app/client/node_modules
     stdin_open: true
     tty: true
     depends_on:
