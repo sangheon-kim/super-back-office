@@ -1,6 +1,6 @@
 FROM node
 
-WORKDIR /app
+WORKDIR /app/server
 
 COPY package.json .
 
@@ -8,7 +8,7 @@ RUN npm install -g pnpm
 
 RUN pnpm install
 
-COPY . /app
+COPY . /app/server
 
 EXPOSE 4000 
 

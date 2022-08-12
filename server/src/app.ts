@@ -1,5 +1,7 @@
 import express from 'express';
-import path, { parse } from 'path';
+import path from 'path';
+import cors from 'cors';
+
 import sequelize from 'src/utils/ORM';
 import Item from 'src/models/Item/Item.model';
 import Project from 'src/models/Project/Project.model';
@@ -8,8 +10,8 @@ import ErrorController from './api/controllers/Error.Controller';
 import { specs, SwaggerUi } from 'src/utils/Swagger';
 
 import AppRouter from 'src/api/routes/App.routes';
-import ProjectRouter from './api/routes/Project.routes';
-import ItemRouter from './api/routes/Item.routes';
+import ProjectRouter from 'src/api/routes/Project.routes';
+import ItemRouter from 'src/api/routes/Item.routes';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -19,6 +21,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(cors());
 
 Item.belongsTo(Project, {
   targetKey: 'projectId',
