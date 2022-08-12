@@ -1,4 +1,7 @@
 import React from 'react';
+import InputButton from 'src/components/Config/InputButton/InputButton';
+import Select from 'src/components/Config/Select/Select';
+import useProjects from 'src/hooks/Config/useProjects';
 import styled from 'styled-components';
 
 const Container = styled.section.attrs({
@@ -27,10 +30,12 @@ type Props = {
 };
 
 export const ConfigContainer: React.FC<Props> = () => {
+  const {} = useProjects();
   return (
     <Container>
       <Header>
         <Title>Configuration Settings</Title>
+        <Select trigger={<InputButton selectedValue="선택" />} />
       </Header>
     </Container>
   );

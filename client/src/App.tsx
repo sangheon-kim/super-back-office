@@ -4,7 +4,9 @@ import routes from 'src/routes/routes';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from './assets/styles/globalStyles';
 import Theme from './assets/styles/Theme';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+const queryClient = new QueryClient();
 function App() {
   const [appTheme, setAppTheme]: ['dark' | 'light', any] = React.useState('dark');
   const element = useRoutes(routes);
@@ -32,10 +34,12 @@ function App() {
   }, [location]);
 
   return (
-    <ThemeProvider theme={Theme(appTheme || 'dark')}>
-      <GlobalStyle />
-      {element}
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={Theme(appTheme || 'dark')}>
+        <GlobalStyle />
+        {element}
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 

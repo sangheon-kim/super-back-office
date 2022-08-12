@@ -2,21 +2,21 @@ import React from 'react';
 
 interface IDropdownContext {
   value: string;
-  onChange: (_: React.MouseEvent<HTMLLIElement>) => void;
+  onChange: (value: string) => void;
   active: boolean;
   setActive: (active: boolean) => void;
 }
 
 const DropdownContext = React.createContext<IDropdownContext>({
   value: '',
-  onChange: (_: React.MouseEvent<HTMLLIElement>) => null,
+  onChange: (value: string) => null,
   active: false,
   setActive: (_: boolean) => null,
 });
 
 interface DropdownProps {
   value: string;
-  onChange: (e: React.MouseEvent<HTMLLIElement>) => null;
+  onChange: (value: string) => void;
   children: React.ReactElement[] | React.ReactNode;
 }
 
@@ -26,11 +26,13 @@ interface TriggerProps {
 
 interface MenuProps {
   children: React.ReactElement[] | React.ReactNode;
+  [key: string]: any;
 }
 
 interface ItemProps {
   value: string;
   children: React.ReactElement[] | React.ReactNode;
+  [key: string]: any;
 }
 
 interface DropdownComposition {
@@ -38,6 +40,16 @@ interface DropdownComposition {
   Menu: React.FC<MenuProps>;
   Item: React.FC<ItemProps>;
 }
+
+const useDropdown = (): IDropdownContext => {
+  const context = React.useContext(DropdownContext);
+
+  if (!context) {
+    throw new Error('This component must be used within a <Dropdown> component.');
+  }
+
+  return context;
+};
 
 const Dropdown: React.FC<DropdownProps> & DropdownComposition = (props) => {
   const { children, value, onChange } = props;
@@ -52,33 +64,38 @@ const Dropdown: React.FC<DropdownProps> & DropdownComposition = (props) => {
 };
 
 const Trigger: React.FC<TriggerProps> = (props) => {
-  const { as } = props;
+  const { setActive, active } = useDropdown();
 
-  return <React.Fragment>{as}</React.Fragment>;
+  const element = React.cloneElement(props.as as React.ReactElement, {
+    onClick: () => {
+      setActive(!active);
+    },
+  });
+
+  return element;
 };
 
 const Menu: React.FC<MenuProps> = (props) => {
   const { active } = useDropdown();
-  return active ? <ul className="menu">{props.children}</ul> : <React.Fragment></React.Fragment>;
+  const { children, ...rest } = props;
+
+  return active ? <ul {...rest}>{children}</ul> : <React.Fragment></React.Fragment>;
 };
 
 const Item: React.FC<ItemProps> = (props) => {
-  const { onChange } = useDropdown();
+  const { onChange, setActive } = useDropdown();
+  const { children, ...rest } = props;
   return (
-    <li className="item" onClick={onChange}>
-      {props.children}
+    <li
+      onClick={() => {
+        onChange(props.value);
+        setActive(false);
+      }}
+      {...rest}
+    >
+      {children}
     </li>
   );
-};
-
-const useDropdown = (): IDropdownContext => {
-  const context = React.useContext(DropdownContext);
-
-  if (!context) {
-    throw new Error('This component must be used within a <Dropdown> component.');
-  }
-
-  return context;
 };
 
 Dropdown.Trigger = Trigger;
