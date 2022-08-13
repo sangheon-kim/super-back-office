@@ -7,7 +7,7 @@ const ButtonContext = React.createContext<IButtonContext>({});
 interface IButtonProps {
   children: React.ReactElement[] | React.ReactNode;
   className?: string;
-  onClick: (e: React.MouseEvent) => void;
+  onClick?: (e: React.MouseEvent) => void;
   disabled?: boolean;
   [key: string]: any;
 }

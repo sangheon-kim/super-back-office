@@ -1,2 +1,35 @@
+.dropdown {
+  position: relative;
+  flex: 1;
+}
+
 .list {
+  width: 100%;
+  flex: 1;
+  position: absolute;
+  list-style: none;
+  background-color: var(--gray100);
+  padding: 16px 0;
+
+  .item {
+    padding: 8px 16px;
+    cursor: pointer;
+    color: var(--gray500);
+
+    &:not(:last-child) {
+      border-bottom: 1px solid;
+      border-color: var(--gray500);
+    }
+
+    &:hover {
+      background-color: var(--gray200);
+      color: var(--gray800);
+    }
+
+    &[aria-selected='true'] {
+      background-color: var(--gray200);
+      color: var(--gray800);
+      cursor: default;
+    }
+  }
 }

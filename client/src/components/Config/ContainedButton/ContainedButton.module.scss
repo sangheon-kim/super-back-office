@@ -1,0 +1,12 @@
+.button {
+  padding: 4px 12px;
+  background-color: var(--primary);
+  color: var(--gray100);
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: var(--primary_hover);
+  }
+}

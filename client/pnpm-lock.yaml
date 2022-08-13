@@ -6,6 +6,7 @@ specifiers:
   '@types/react-dom': ^18.0.6
   '@types/styled-components': ^5.1.25
   '@vitejs/plugin-react': ^2.0.0
+  classnames: ^2.3.1
   react: ^18.2.0
   react-dom: ^18.2.0
   react-icons: ^4.4.0
@@ -18,6 +19,7 @@ specifiers:
 
 dependencies:
   '@tanstack/react-query': 4.1.0_biqbaboplfbrettd7655fr4n2y
+  classnames: 2.3.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-icons: 4.4.0_react@18.2.0
@@ -536,6 +538,10 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
+
+  /classnames/2.3.1:
+    resolution: {integrity: sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==}
+    dev: false
 
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}

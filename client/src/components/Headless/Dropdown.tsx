@@ -2,21 +2,22 @@ import React from 'react';
 
 interface IDropdownContext {
   value: string;
-  onChange: (value: string) => void;
+  onClick: (e: React.MouseEvent) => void;
   active: boolean;
   setActive: (active: boolean) => void;
 }
 
 const DropdownContext = React.createContext<IDropdownContext>({
   value: '',
-  onChange: (value: string) => null,
+  onClick: (e: React.MouseEvent) => null,
   active: false,
   setActive: (_: boolean) => null,
 });
 
 interface DropdownProps {
   value: string;
-  onChange: (value: string) => void;
+  className?: string;
+  onClick: (e: React.MouseEvent) => void;
   children: React.ReactElement[] | React.ReactNode;
 }
 
@@ -30,7 +31,6 @@ interface MenuProps {
 }
 
 interface ItemProps {
-  value: string;
   children: React.ReactElement[] | React.ReactNode;
   [key: string]: any;
 }
@@ -52,21 +52,26 @@ const useDropdown = (): IDropdownContext => {
 };
 
 const Dropdown: React.FC<DropdownProps> & DropdownComposition = (props) => {
-  const { children, value, onChange } = props;
+  const { children, value, onClick, className } = props;
   const [active, setActive] = React.useState(false);
 
   const contextValue = React.useMemo(
-    () => ({ value, onChange, active, setActive }),
-    [value, onChange, active]
+    () => ({ value, onClick, active, setActive }),
+    [value, onClick, active]
   );
 
-  return <DropdownContext.Provider value={contextValue}>{children}</DropdownContext.Provider>;
+  return (
+    <DropdownContext.Provider value={contextValue}>
+      <div className={className}>{children}</div>
+    </DropdownContext.Provider>
+  );
 };
 
 const Trigger: React.FC<TriggerProps> = (props) => {
   const { setActive, active } = useDropdown();
 
   const element = React.cloneElement(props.as as React.ReactElement, {
+    active,
     onClick: () => {
       setActive(!active);
     },
@@ -83,12 +88,12 @@ const Menu: React.FC<MenuProps> = (props) => {
 };
 
 const Item: React.FC<ItemProps> = (props) => {
-  const { onChange, setActive } = useDropdown();
+  const { onClick, setActive } = useDropdown();
   const { children, ...rest } = props;
   return (
     <li
-      onClick={() => {
-        onChange(props.value);
+      onClick={(e) => {
+        onClick(e);
         setActive(false);
       }}
       {...rest}

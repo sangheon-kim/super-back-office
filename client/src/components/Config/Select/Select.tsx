@@ -2,29 +2,29 @@ import React from 'react';
 import { Dropdown } from 'src/components/Headless/Dropdown';
 import styles from './Select.module.scss';
 
-interface Option {
-  label: string;
-  value: string;
-  [key: string]: any;
-}
-
 type SelectProps = {
   value: string;
-  onChange: (value: string) => void;
-  options: Array<Option>;
+  onClick: (e: React.MouseEvent) => void;
+  options: Option[];
   trigger: React.ReactElement[] | React.ReactNode;
 };
 
 const Select: React.FC<SelectProps> = (props) => {
-  const { value, onChange, options, trigger } = props;
+  const { value, onClick, options, trigger } = props;
 
   return (
-    <Dropdown value={value} onChange={onChange}>
+    <Dropdown value={value} onClick={onClick} className={styles.dropdown}>
       <Dropdown.Trigger as={trigger} />
-      <Dropdown.Menu className={styles.list}>
+      <Dropdown.Menu className={styles.list} role="listbox">
         {options.map((option) => {
           return (
-            <Dropdown.Item value={option.value} key={option.value} className={styles.item}>
+            <Dropdown.Item
+              id={option.value}
+              key={option.value}
+              className={styles.item}
+              role="option"
+              aria-selected={option.value === value ? 'true' : 'false'}
+            >
               {option.label}
             </Dropdown.Item>
           );
@@ -36,7 +36,6 @@ const Select: React.FC<SelectProps> = (props) => {
 
 Select.defaultProps = {
   value: '',
-  onChange: () => {},
   options: [],
   trigger: React.createElement('div'),
 };
