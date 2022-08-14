@@ -13,4 +13,14 @@ interface Item {
   key: string;
   value: string;
   projectId: string;
+  previousKey?: string;
+}
+interface ItemsResponse {
+  project: Project;
+  items: Array<Item>;
+}
+
+interface ItemResponse {
+  project: Project;
+  item: Item;
 }

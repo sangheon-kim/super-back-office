@@ -60,9 +60,26 @@ class ItemRepository {
 
       if (!items[0]) throw new HttpException(404, 'No Item');
 
-      await items[0]?.update(body, {
-        where: { key },
-      });
+      // const item = items[0];
+
+      for (let item of items) {
+        console.log({
+          item,
+        });
+        // await item.update({ ...body });
+        item.key = body.key;
+        item.value = body.value;
+        await item.update({ ...body });
+      }
+
+      // console.log({
+      //   key: body.key,
+      // });
+
+      // // await item.update({ key: body.key, value: body.value });
+      // console.log({ items, item, body });
+      // await item.save();
+      // console.log(items);
 
       return true;
     } catch (err) {

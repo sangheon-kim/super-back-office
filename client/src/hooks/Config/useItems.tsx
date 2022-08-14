@@ -1,38 +1,70 @@
 import React from 'react';
 import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { ItemService } from 'src/api/services/itemApi';
+// import { ItemService } from 'src/api/services/itemAPI';
+
+const onError = (err: unknown) => console.error(err);
 
 const HOST_URL = 'http://localhost:4000';
 
-interface ItemResponse {
-  project: Project;
-  items: Array<Item>;
-}
-
 export default function useItems(projectId: string) {
+  const SERVICE_URL = `/projects/${projectId}/items`;
+  ItemService.projectId = projectId;
+  const itemService = new ItemService();
+
+  const COMMON_URL = `${HOST_URL}${SERVICE_URL}`;
   const [project, setProject]: [Project, any] = React.useState({ description: '', projectId: '' });
   const [items, setItems]: [Array<Item>, any] = React.useState([]);
-  const SERVICE_URL = (() => `/projects/${projectId}/items`)();
-  const URL = `${HOST_URL}${SERVICE_URL}`;
-  const { isLoading, refetch } = useQuery(
-    ['items', projectId],
-    async () => {
-      try {
-        const response = await fetch(URL);
-        const { _data }: FetchResponse<ItemResponse> = await response.json();
 
-        setProject(_data.project);
-        setItems(_data.items);
-
-        return _data;
-      } catch (error) {}
+  const { isLoading, refetch } = useQuery(['items', projectId], itemService.getItems, {
+    staleTime: Number.MAX_SAFE_INTEGER,
+    onSuccess: (data) => {
+      setProject(data.project);
+      setItems(data.items);
     },
-    { staleTime: Number.MAX_SAFE_INTEGER }
-  );
+  });
 
   React.useEffect(() => {
+    ItemService.projectId = projectId;
     refetch();
   }, [projectId]);
+
+  const addItem = useMutation(itemService.createItem, {
+    onSuccess: (data) => {
+      setItems([...items, data.item]);
+    },
+    onError,
+  });
+
+  const updateItem = useMutation(itemService.updateItem, {
+    onSuccess: (data, variables) => {
+      // const { previousKey, key: updateKey, value: updateValue, projectId } = variables;
+      // console.log({
+      //   variables,
+      // });
+      // setItems(
+      //   items.map((item) => {
+      //     return item.previousKey === item.key
+      //       ? {
+      //           key: updateKey,
+      //           value: updateValue,
+      //           projectId,
+      //         }
+      //       : { ...item };
+      //   })
+      // );
+      refetch();
+    },
+    onError,
+  });
+
+  // const deleteItem = useMutation(itemAPI.deleteItem, {
+  //   onSuccess: () => {
+  //     refetch();
+  //   },
+  //   onError,
+  // });
 
   return {
     data: {
@@ -40,5 +72,7 @@ export default function useItems(projectId: string) {
       items,
     },
     isLoading,
+    addItem,
+    updateItem,
   };
 }

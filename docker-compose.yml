@@ -32,7 +32,7 @@ services:
     stdin_open: true
     tty: true
     depends_on:
-      - myql
+      - mysql
       - server
 volumes:
   sqldb:

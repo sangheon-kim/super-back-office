@@ -35,6 +35,7 @@ const ApplicationRow = styled.div`
 
   .btn-group {
     display: flex;
+    align-items: center;
     margin-left: 16px;
 
     button + button {
@@ -139,10 +140,6 @@ export const ConfigContainer: React.FC<Props> = () => {
             <ContainedButton>삭제</ContainedButton>
           </Form>
         );
-      case ModalTypes.ADD_ITEM:
-        return <Form>아이템 추가</Form>;
-      case ModalTypes.DELETE_ITEM:
-        return <Form>아이템 삭제</Form>;
     }
   })();
 
