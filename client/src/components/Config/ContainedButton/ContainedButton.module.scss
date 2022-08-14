@@ -1,10 +1,12 @@
 .button {
-  padding: 4px 12px;
+  padding: 0 12px;
   background-color: var(--primary);
   color: var(--gray100);
   flex-shrink: 0;
   cursor: pointer;
   border-radius: 8px;
+  min-height: 32px;
+  outline: none;
 
   &:hover {
     background-color: var(--primary_hover);

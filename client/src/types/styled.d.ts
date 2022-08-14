@@ -47,6 +47,6 @@ type Typographys =
 declare module 'styled-components' {
   export interface DefaultTheme {
     color: Record<Colors, string>;
-    typography: Recored<Typographys, ThemedCssFunction>;
+    typography: Record<Typographys, ThemedCssFunction>;
   }
 }

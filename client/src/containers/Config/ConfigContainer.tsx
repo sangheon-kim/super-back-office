@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { ReducerAction } from 'react';
 import { useNavigate, useParams, Outlet } from 'react-router-dom';
+import ModalPortal from 'src/components/common/ModalPortal';
 import ContainedButton from 'src/components/Config/ContainedButton/ContainedButton';
 import InputButton from 'src/components/Config/InputButton/InputButton';
 import Select from 'src/components/Config/Select/Select';
+import { ModalTypes } from 'src/constants/ModalTypes';
 import useProjects from 'src/hooks/Config/useProjects';
 import styled from 'styled-components';
 
@@ -41,13 +43,49 @@ const ApplicationRow = styled.div`
   }
 `;
 
+const Form = styled.form``;
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+
+  label {
+    margin-right: 8px;
+    flex: 1;
+  }
+
+  input {
+    border: 2px solid;
+    border-color: ${({ theme }) => theme.color.gray200};
+    ${({ theme }) => theme.typography.body2};
+    border-radius: 8px;
+    padding: 4px 8px;
+    flex: 2;
+
+    &:focus,
+    &:active {
+      border-color: ${({ theme }) => theme.color.blue};
+    }
+  }
+
+  button {
+    margin-left: auto;
+  }
+`;
+
 type Props = {
   children?: React.ReactNode | React.ReactElement[];
 };
 
 export const ConfigContainer: React.FC<Props> = () => {
+  const [modalKey, setModalKey] = React.useState('');
+  const ProjectId = React.createRef<HTMLInputElement>();
+  const Description = React.createRef<HTMLInputElement>();
   const params = useParams();
-  const { projects, isLoading } = useProjects();
+  const { projects, isLoading, addProject, deleteProject } = useProjects();
   const navigate = useNavigate();
   const [selected, change] = React.useState(params.projectId || '');
 
@@ -59,27 +97,83 @@ export const ConfigContainer: React.FC<Props> = () => {
     change(params.projectId || '');
   }, [params.projectId]);
 
+  const Modal = (() => {
+    switch (modalKey) {
+      case ModalTypes.ADD_PROJECT:
+        return (
+          <Form
+            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+              e.preventDefault();
+              if (!ProjectId.current || !Description.current) return false;
+
+              addProject.mutate({
+                projectId: ProjectId.current.value,
+                description: Description.current.value,
+              });
+              setModalKey('');
+            }}
+          >
+            <Row>
+              <label htmlFor="projectId">프로젝트 ID</label>
+              <input type="text" name="projectId" ref={ProjectId} />
+            </Row>
+            <Row>
+              <label htmlFor="description">설명</label>
+              <input type="text" name="description" ref={Description} />
+            </Row>
+            <Row>
+              <ContainedButton>등록</ContainedButton>
+            </Row>
+          </Form>
+        );
+      case ModalTypes.DELETE_PROJECT:
+        return (
+          <Form
+            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+              e.preventDefault();
+              deleteProject.mutate(params.projectId || '');
+              setModalKey('');
+            }}
+          >
+            <p>정말로 삭제하시겠습니까?</p>
+            <ContainedButton>삭제</ContainedButton>
+          </Form>
+        );
+      case ModalTypes.ADD_ITEM:
+        return <Form>아이템 추가</Form>;
+      case ModalTypes.DELETE_ITEM:
+        return <Form>아이템 삭제</Form>;
+    }
+  })();
+
   return (
-    <Container>
-      <Header>
-        <Title>Configuration Settings</Title>
-        <ApplicationRow>
-          <Select
-            trigger={
-              <InputButton selectedValue={isLoading ? '' : item.label || 'select application'} />
-            }
-            options={projects}
-            onClick={(e) => navigate(`/config/${e.currentTarget.id}`)}
-            value={selected}
-          />
-          <div className="btn-group">
-            <ContainedButton>App 추가</ContainedButton>
-            <ContainedButton>App 삭제</ContainedButton>
-          </div>
-        </ApplicationRow>
-      </Header>
-      <Outlet />
-    </Container>
+    <React.Fragment>
+      <Container>
+        <Header>
+          <Title>Configuration Settings</Title>
+          <ApplicationRow>
+            <Select
+              trigger={
+                <InputButton selectedValue={isLoading ? '' : item.label || 'select application'} />
+              }
+              options={projects}
+              onClick={(e) => navigate(`/config/${e.currentTarget.id}`)}
+              value={selected}
+            />
+            <div className="btn-group">
+              <ContainedButton onClick={() => setModalKey(ModalTypes.ADD_PROJECT)}>
+                App 추가
+              </ContainedButton>
+              <ContainedButton onClick={() => setModalKey(ModalTypes.DELETE_PROJECT)}>
+                App 삭제
+              </ContainedButton>
+            </div>
+          </ApplicationRow>
+        </Header>
+        <Outlet />
+      </Container>
+      {modalKey && <ModalPortal onClose={() => setModalKey('')}>{Modal}</ModalPortal>}
+    </React.Fragment>
   );
 };
 

@@ -29,7 +29,6 @@ services:
       - 3000:3000
     volumes:
       - ./client/src:/app/client/src
-      - /app/client/node_modules
     stdin_open: true
     tty: true
     depends_on:

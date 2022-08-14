@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 interface IDropdownContext {
   value: string;
@@ -54,6 +55,11 @@ const useDropdown = (): IDropdownContext => {
 const Dropdown: React.FC<DropdownProps> & DropdownComposition = (props) => {
   const { children, value, onClick, className } = props;
   const [active, setActive] = React.useState(false);
+  const params = useParams();
+
+  React.useEffect(() => {
+    setActive(false);
+  }, [params]);
 
   const contextValue = React.useMemo(
     () => ({ value, onClick, active, setActive }),
@@ -90,6 +96,7 @@ const Menu: React.FC<MenuProps> = (props) => {
 const Item: React.FC<ItemProps> = (props) => {
   const { onClick, setActive } = useDropdown();
   const { children, ...rest } = props;
+
   return (
     <li
       onClick={(e) => {

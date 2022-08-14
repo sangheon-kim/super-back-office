@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 
 const HOST_URL = 'http://localhost:4000';
@@ -11,11 +12,13 @@ interface ItemResponse {
 export default function useItems(projectId: string) {
   const [project, setProject]: [Project, any] = React.useState({ description: '', projectId: '' });
   const [items, setItems]: [Array<Item>, any] = React.useState([]);
-  const { isLoading, isError, refetch } = useQuery(
+  const SERVICE_URL = (() => `/projects/${projectId}/items`)();
+  const URL = `${HOST_URL}${SERVICE_URL}`;
+  const { isLoading, refetch } = useQuery(
     ['items', projectId],
     async () => {
       try {
-        const response = await fetch(`${HOST_URL}/projects/${projectId}/items`);
+        const response = await fetch(URL);
         const { _data }: FetchResponse<ItemResponse> = await response.json();
 
         setProject(_data.project);

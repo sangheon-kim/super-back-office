@@ -30,12 +30,14 @@ const Table = styled.table`
 
 const TableHead = styled.thead`
   border-bottom: 2px solid black;
+
   tr {
     height: 50px;
   }
   th {
     text-align: left;
   }
+
   .button {
     width: 30px;
     flex-shrink: 0;
@@ -74,7 +76,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projectId }) => {
           {items.length > 0 ? (
             items.map((item) => {
               return (
-                <tr>
+                <tr key={item.key}>
                   <td>{item.key}</td>
                   <td>{item.value}</td>
                   <td>X</td>
@@ -82,7 +84,9 @@ const ProjectList: React.FC<ProjectListProps> = ({ projectId }) => {
               );
             })
           ) : (
-            <tr>No Properties</tr>
+            <tr>
+              <td>No Properties</td>
+            </tr>
           )}
         </TableBody>
       </Table>
