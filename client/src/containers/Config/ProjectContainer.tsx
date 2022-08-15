@@ -95,6 +95,22 @@ const Row = styled.div`
   }
 `;
 
+const TextArea = styled.textarea`
+  resize: none;
+  flex: 2;
+  border: 2px solid;
+  border-color: ${({ theme }) => theme.color.gray200};
+  ${({ theme }) => theme.typography.body2};
+  border-radius: 8px;
+  padding: 4px 8px;
+  min-height: 300px;
+
+  &:focus,
+  &:active {
+    border-color: ${({ theme }) => theme.color.blue};
+  }
+`;
+
 type ProjectListProps = {
   projectId: string;
 };
@@ -141,11 +157,60 @@ function ItemPopup(props: ItemPopupProps) {
   );
 }
 
+function ItemMultiPopup(props: ItemPopupProps) {
+  const [form, setForm] = React.useState({
+    key: props.property || '',
+    value: props.value || '',
+  });
+  const TextAreaRef = React.createRef<HTMLTextAreaElement>();
+  const { key, value } = form;
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setForm({ ...form, [e.target.name]: value });
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    console.dir(TextAreaRef.current);
+    if (!TextAreaRef.current) return false;
+    const value = TextAreaRef.current.value.replaceAll(' ', '&nbsp;').replaceAll('\n', '<br />');
+
+    props.onSubmit({
+      key,
+      value,
+    });
+  };
+
+  return (
+    <Form onSubmit={onSubmit}>
+      <Row>
+        <label htmlFor="key">Key</label>
+        <input type="text" name="key" value={key} onChange={onChange} />
+      </Row>
+      <Row>
+        <label htmlFor="value">value</label>
+        <TextArea ref={TextAreaRef} />
+      </Row>
+      <Row>
+        <ContainedButton>{props.isEdit ? '수정' : '추가'}</ContainedButton>
+      </Row>
+    </Form>
+  );
+}
+
 const ProjectList: React.FC<ProjectListProps> = ({ projectId }) => {
   const [currentItem, setCurrentItem] = React.useState({
     key: '',
     value: '',
   });
+
+  const reverseReplace = (value: string) => {
+    console.log(value.replaceAll('&nbsp;', ' '));
+    value.replaceAll('&nbsp;', ' ').replaceAll('<br />', '\n');
+  };
+
   const {
     isLoading,
     data: { project, items },
@@ -193,7 +258,16 @@ const ProjectList: React.FC<ProjectListProps> = ({ projectId }) => {
       case ModalTypes.ADD_ITEM:
         return <ItemPopup onSubmit={addItemSubmit} />;
       case ModalTypes.ADD_MULTILINE_ITEM:
-        return <Form></Form>;
+        return <ItemMultiPopup onSubmit={addItemSubmit} />;
+      case ModalTypes.UPDATE_MULTILINE_ITEM:
+        return (
+          <ItemMultiPopup
+            onSubmit={addItemSubmit}
+            value={reverseReplace(currentItem.value)}
+            property={currentItem.key}
+            isEdit={true}
+          />
+        );
       case ModalTypes.UPDATE_ITEM:
         return (
           <ItemPopup
@@ -255,13 +329,16 @@ const ProjectList: React.FC<ProjectListProps> = ({ projectId }) => {
                 <tr
                   key={item.key}
                   onClick={() => {
-                    console.log(item);
                     setCurrentItem(item);
-                    setModalKey(ModalTypes.UPDATE_ITEM);
+                    setModalKey(
+                      item.value.includes('<br />')
+                        ? ModalTypes.UPDATE_MULTILINE_ITEM
+                        : ModalTypes.UPDATE_ITEM
+                    );
                   }}
                 >
                   <td>{item.key}</td>
-                  <td>{item.value}</td>
+                  <td dangerouslySetInnerHTML={{ __html: item.value }}></td>
                   <td
                     onClick={(e) => {
                       e.stopPropagation();

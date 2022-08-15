@@ -40,7 +40,13 @@ class ItemRepository {
 
   async create(project: Project, item: CreateItemDto): Promise<ResponseItemDto> {
     try {
-      const result = await project?.createItem({ ...item, projectId: project.projectId });
+      console.log({
+        item,
+      });
+      const result = await project?.createItem(
+        { ...item, projectId: project.projectId },
+        { raw: true }
+      );
 
       if (!result) throw new Error('create Error');
       return result;
@@ -59,26 +65,6 @@ class ItemRepository {
         })) || [];
 
       if (!items[0]) throw new HttpException(404, 'No Item');
-
-      // await Item.update(body, { where: { key: item.key, projectId: project.projectId } });
-
-      // const item = await project.getItem({ where: { key } });
-      // console.log({ item });
-      // await project.updateItem(body, { where: { key } });
-      // project.updateItem(body, { where: { key } });
-      // const items =
-      //   (await project.getItems({
-      //     where: {
-      //       key,
-      //     },
-      //   })) || [];
-
-      // const item = items[0];
-
-      // await item.setAttributes('key', body.key);
-      // await item.setAttributes('value', body.value);
-      // // await item.save();
-      // console.log({ item });
 
       return true;
     } catch (err) {

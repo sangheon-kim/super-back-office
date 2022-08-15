@@ -46,6 +46,7 @@ class ItemController {
   async createItem(req: Request, res: Response, next: NextFunction) {
     const { projectId } = req.params;
     const body: CreateItemDto = req.body;
+
     try {
       const project = await this.projectRepository.findById(projectId);
 
