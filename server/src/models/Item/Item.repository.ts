@@ -60,26 +60,25 @@ class ItemRepository {
 
       if (!items[0]) throw new HttpException(404, 'No Item');
 
+      // await Item.update(body, { where: { key: item.key, projectId: project.projectId } });
+
+      // const item = await project.getItem({ where: { key } });
+      // console.log({ item });
+      // await project.updateItem(body, { where: { key } });
+      // project.updateItem(body, { where: { key } });
+      // const items =
+      //   (await project.getItems({
+      //     where: {
+      //       key,
+      //     },
+      //   })) || [];
+
       // const item = items[0];
 
-      for (let item of items) {
-        console.log({
-          item,
-        });
-        // await item.update({ ...body });
-        item.key = body.key;
-        item.value = body.value;
-        await item.update({ ...body });
-      }
-
-      // console.log({
-      //   key: body.key,
-      // });
-
-      // // await item.update({ key: body.key, value: body.value });
-      // console.log({ items, item, body });
-      // await item.save();
-      // console.log(items);
+      // await item.setAttributes('key', body.key);
+      // await item.setAttributes('value', body.value);
+      // // await item.save();
+      // console.log({ item });
 
       return true;
     } catch (err) {
