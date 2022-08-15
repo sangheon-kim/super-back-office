@@ -39,32 +39,30 @@ export default function useItems(projectId: string) {
 
   const updateItem = useMutation(itemService.updateItem, {
     onSuccess: (data, variables) => {
-      // const { previousKey, key: updateKey, value: updateValue, projectId } = variables;
-      // console.log({
-      //   variables,
-      // });
-      // setItems(
-      //   items.map((item) => {
-      //     return item.previousKey === item.key
-      //       ? {
-      //           key: updateKey,
-      //           value: updateValue,
-      //           projectId,
-      //         }
-      //       : { ...item };
-      //   })
-      // );
-      refetch();
+      const { previousKey, key: updateKey, value: updateValue, projectId } = variables;
+
+      setItems(
+        items.map((item) => {
+          return item.previousKey === item.key
+            ? {
+                key: updateKey,
+                value: updateValue,
+                projectId,
+              }
+            : { ...item };
+        })
+      );
     },
     onError,
   });
 
-  // const deleteItem = useMutation(itemAPI.deleteItem, {
-  //   onSuccess: () => {
-  //     refetch();
-  //   },
-  //   onError,
-  // });
+  const deleteItem = useMutation(itemService.deleteItem, {
+    onSuccess: (_, key) => {
+      setItems(items.filter((item) => item.key !== key));
+      // refetch();
+    },
+    onError,
+  });
 
   return {
     data: {
@@ -74,5 +72,6 @@ export default function useItems(projectId: string) {
     isLoading,
     addItem,
     updateItem,
+    deleteItem,
   };
 }

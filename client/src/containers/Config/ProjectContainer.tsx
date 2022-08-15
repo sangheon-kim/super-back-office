@@ -151,6 +151,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projectId }) => {
     data: { project, items },
     addItem,
     updateItem,
+    deleteItem,
   } = useItems(projectId);
   const [modalKey, setModalKey] = React.useState('');
 
@@ -203,7 +204,19 @@ const ProjectList: React.FC<ProjectListProps> = ({ projectId }) => {
           />
         );
       case ModalTypes.DELETE_ITEM:
-        return <Form></Form>;
+        return (
+          <Form
+            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+              e.preventDefault();
+
+              deleteItem.mutate(currentItem.key);
+              setModalKey('');
+            }}
+          >
+            <p>정말로 삭제하시겠습니까?</p>
+            <ContainedButton>삭제</ContainedButton>
+          </Form>
+        );
       default:
         return null;
     }
@@ -249,7 +262,15 @@ const ProjectList: React.FC<ProjectListProps> = ({ projectId }) => {
                 >
                   <td>{item.key}</td>
                   <td>{item.value}</td>
-                  <td onClick={() => setModalKey(ModalTypes.DELETE_ITEM)}>X</td>
+                  <td
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentItem(item);
+                      setModalKey(ModalTypes.DELETE_ITEM);
+                    }}
+                  >
+                    X
+                  </td>
                 </tr>
               );
             })

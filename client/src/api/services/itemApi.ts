@@ -34,6 +34,12 @@ export class ItemService {
     await axios.put<FetchResponse<string>>(url, { ...item });
     return 'OK';
   };
+
+  deleteItem = async (id: string) => {
+    const url = `${this.url}/${id}`;
+    await axios.delete<FetchResponse<string>>(url);
+    return 'OK';
+  };
 }
 
 // export const createItem = async (item: Item) => {

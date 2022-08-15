@@ -1,4 +1,4 @@
-import React, { ReducerAction } from 'react';
+import React from 'react';
 import { useNavigate, useParams, Outlet } from 'react-router-dom';
 import ModalPortal from 'src/components/common/ModalPortal';
 import ContainedButton from 'src/components/Config/ContainedButton/ContainedButton';
